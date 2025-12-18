@@ -1,0 +1,1 @@
+- `dotnet ef migrations add InitialCreate`のような感じで、migration ファイルを生成。env に接続先 DB 設定して`dotnet ef database update`で適用。
