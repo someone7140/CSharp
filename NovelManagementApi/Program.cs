@@ -17,7 +17,9 @@ builder.Services
     .AddType<ErrorCode>()
     .AddQueryType(d => d.Name("Query"))
     .AddTypeExtension<UserAccountQuery>()
-    .AddTypeExtension<NovelQuery>();
+    .AddTypeExtension<NovelQuery>()
+    .AddMutationType(d => d.Name("Mutation"))
+    .AddTypeExtension<UserAccountMutation>();
 
 var app = builder.Build();
 app.MapGraphQL();

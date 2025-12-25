@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 [Table("user_accounts")]
-[Index(nameof(Gmail), IsUnique = true)]
+[Index(nameof(Gmail), IsUnique = true), Index(nameof(UserSettingId))]
 public class UserAccountEntity
 {
     [Key]

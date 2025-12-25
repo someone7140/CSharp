@@ -56,6 +56,8 @@ namespace NovelManagementApi.Migrations
                     b.HasIndex("Gmail")
                         .IsUnique();
 
+                    b.HasIndex("UserSettingId");
+
                     b.ToTable("user_accounts");
                 });
 #pragma warning restore 612, 618

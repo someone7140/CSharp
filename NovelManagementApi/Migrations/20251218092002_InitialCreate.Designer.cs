@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NovelManagementApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251214152117_InitialCreate")]
+    [Migration("20251218092002_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -58,6 +58,8 @@ namespace NovelManagementApi.Migrations
 
                     b.HasIndex("Gmail")
                         .IsUnique();
+
+                    b.HasIndex("UserSettingId");
 
                     b.ToTable("user_accounts");
                 });

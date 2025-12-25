@@ -32,6 +32,11 @@ namespace NovelManagementApi.Migrations
                 table: "user_accounts",
                 column: "gmail",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_user_accounts_user_setting_id",
+                table: "user_accounts",
+                column: "user_setting_id");
         }
 
         /// <inheritdoc />
