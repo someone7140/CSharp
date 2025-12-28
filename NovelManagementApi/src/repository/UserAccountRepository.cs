@@ -6,6 +6,7 @@ public interface IUserAccountRepository
 {
     public UserAccountEntity? GetUserAccountByGmail(string gmail);
     public UserAccountEntity? GetUserAccountByUserSettingId(string gmail);
+    public UserAccountEntity? GetUserAccountByUserUserAccountId(string userAccountId);
     public void AddUserAccountEntity(
         string id,
         string name,
@@ -27,6 +28,11 @@ public class UserAccountRepository(ApplicationDbContext _context) : IUserAccount
     public UserAccountEntity? GetUserAccountByUserSettingId(string userSettingId)
     {
         return dbContext.UserAccounts.FirstOrDefault(u => u.UserSettingId == userSettingId);
+    }
+
+    public UserAccountEntity? GetUserAccountByUserUserAccountId(string userAccountId)
+    {
+        return dbContext.UserAccounts.FirstOrDefault(u => u.Id == userAccountId);
     }
 
     public void AddUserAccountEntity(

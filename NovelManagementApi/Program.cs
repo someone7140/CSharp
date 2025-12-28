@@ -1,5 +1,8 @@
+using System.Text;
 using DotNetEnv;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using NovelManagementApi.src.graphqlSchema;
 using NovelManagementApi.src.model.db;
 using NovelManagementApi.src.model.graphql;
@@ -14,6 +17,7 @@ builder.Services
     .AddScoped<IUserAccountService, UserAccountService>()
     .AddScoped<IUserAccountRepository, UserAccountRepository>()
     .AddGraphQLServer()
+    .AddAuthorization()
     .AddType<ErrorCode>()
     .AddQueryType(d => d.Name("Query"))
     .AddTypeExtension<UserAccountQuery>()
@@ -21,7 +25,32 @@ builder.Services
     .AddMutationType(d => d.Name("Mutation"))
     .AddTypeExtension<UserAccountMutation>();
 
+builder.Services
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        var jwtSecret = Env.GetString("JWT_SECRET");
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret));
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = securityKey,
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapGraphQL();
 
 app.Run();

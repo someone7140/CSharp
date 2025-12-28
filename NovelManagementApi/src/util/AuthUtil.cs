@@ -12,6 +12,8 @@ using NovelManagementApi.src.model.graphql;
 
 public class AuthUtil
 {
+    public const string USER_ACCOUNT_ID_KEY = "userAccountId";
+
     // 認証コードからユーザのプロファイル情報を取得
     public static async Task<GoogleJsonWebSignature.Payload> GetGoogleUserProfileFromAuthCode(string authCode)
     {
@@ -108,5 +110,36 @@ public class AuthUtil
              .Build()
              );
         }
+    }
+
+    // ClaimsPrincipalからuserAccountIdを取得
+    public static string GetUserAccountIdFromHClaimsPrincipal(ClaimsPrincipal claimsPrincipal)
+    {
+        if (claimsPrincipal?.Identity?.IsAuthenticated != true)
+        {
+            throw new GraphQLException(
+                ErrorBuilder.New()
+                    .SetMessage("User is not authenticated")
+                    .SetCode(ErrorCode.UNAUTHORIZED.ToString())
+                    .Build()
+            );
+        }
+
+        var claims = new Dictionary<string, string>();
+        foreach (var claim in claimsPrincipal.Claims)
+        {
+            claims[claim.Type] = claim.Value;
+        }
+        if (!claims.TryGetValue(USER_ACCOUNT_ID_KEY, out string? userAccountId))
+        {
+            throw new GraphQLException(
+                ErrorBuilder.New()
+                    .SetMessage("Can not get userAccountId")
+                    .SetCode(ErrorCode.UNAUTHORIZED.ToString())
+                    .Build()
+            );
+        }
+
+        return userAccountId;
     }
 }

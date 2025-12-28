@@ -16,4 +16,11 @@ public class UserAccountMutation
         return userAccountService.AddUserAccount(registerToken, userSettingId, name);
     }
 
+    public async Task<UserAccountResponse> LoginByGoogleAuth(
+        string authCode,
+        [Service] IUserAccountService userAccountService)
+    {
+        return await userAccountService.GetUserAccountByGoogleAuthCode(authCode);
+    }
+
 }
