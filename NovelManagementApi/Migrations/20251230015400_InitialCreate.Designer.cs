@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NovelManagementApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251218092002_InitialCreate")]
+    [Migration("20251230015400_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,6 +24,37 @@ namespace NovelManagementApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("NovelManagementApi.src.model.db.NovelEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("varchar")
+                        .HasColumnName("description");
+
+                    b.Property<string>("OwnerUserAccountId")
+                        .IsRequired()
+                        .HasColumnType("varchar")
+                        .HasColumnName("owner_user_account_id");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("varchar")
+                        .HasColumnName("title");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerUserAccountId");
+
+                    b.ToTable("novels");
+                });
 
             modelBuilder.Entity("NovelManagementApi.src.model.db.UserAccountEntity", b =>
                 {

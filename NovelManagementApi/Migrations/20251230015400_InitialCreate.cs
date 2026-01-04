@@ -12,6 +12,21 @@ namespace NovelManagementApi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "novels",
+                columns: table => new
+                {
+                    id = table.Column<string>(type: "varchar", nullable: false),
+                    title = table.Column<string>(type: "varchar", nullable: false),
+                    description = table.Column<string>(type: "varchar", nullable: true),
+                    owner_user_account_id = table.Column<string>(type: "varchar", nullable: false),
+                    created_at = table.Column<DateTimeOffset>(type: "timestamptz", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_novels", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "user_accounts",
                 columns: table => new
                 {
@@ -28,6 +43,11 @@ namespace NovelManagementApi.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_novels_owner_user_account_id",
+                table: "novels",
+                column: "owner_user_account_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_user_accounts_gmail",
                 table: "user_accounts",
                 column: "gmail",
@@ -42,6 +62,9 @@ namespace NovelManagementApi.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "novels");
+
             migrationBuilder.DropTable(
                 name: "user_accounts");
         }

@@ -10,4 +10,5 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<UserAccountEntity> UserAccounts { get; set; }
+    public DbSet<NovelEntity> Novels { get; set; }
 }

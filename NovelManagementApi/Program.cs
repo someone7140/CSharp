@@ -14,6 +14,8 @@ Env.Load();
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Env.GetString("DB_CONNECT")))
+    .AddScoped<INovelService, NovelService>()
+    .AddScoped<INovelRepository, NovelRepository>()
     .AddScoped<IUserAccountService, UserAccountService>()
     .AddScoped<IUserAccountRepository, UserAccountRepository>()
     .AddGraphQLServer()
@@ -23,7 +25,8 @@ builder.Services
     .AddTypeExtension<UserAccountQuery>()
     .AddTypeExtension<NovelQuery>()
     .AddMutationType(d => d.Name("Mutation"))
-    .AddTypeExtension<UserAccountMutation>();
+    .AddTypeExtension<UserAccountMutation>()
+    .AddTypeExtension<NovelMutation>();
 
 builder.Services
     .AddAuthentication(options =>

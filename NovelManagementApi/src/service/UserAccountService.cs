@@ -122,7 +122,6 @@ public class UserAccountService(IUserAccountRepository _userAccountRepository) :
         };
     }
 
-
     // ユーザのIDでアカウント情報を取得
     public UserAccountResponse GetUserAccountByUserAccountId(string userAccountId)
     {

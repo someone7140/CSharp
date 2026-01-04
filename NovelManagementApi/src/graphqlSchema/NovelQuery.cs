@@ -1,17 +1,20 @@
 namespace NovelManagementApi.src.graphqlSchema;
 
+using System.Security.Claims;
+using HotChocolate.Authorization;
+using NovelManagementApi.src.model.graphql;
+using NovelManagementApi.src.service;
+using NovelManagementApi.src.util;
+
 [ExtendObjectType("Query")]
 public class NovelQuery
 {
-    public string Hello2()
+    [Authorize]
+    public List<NovelResponse> GetMyNovels(
+        ClaimsPrincipal claimsPrincipal,
+        [Service] INovelService novelService)
     {
-        Console.WriteLine("=== Hello method called ===");
-
-        var message = "Hello, GraphQL!";
-
-        Console.WriteLine($"Message: {message}");
-        Console.WriteLine($"Timestamp: {DateTime.Now}");
-
-        return message;
+        var userAccountId = AuthUtil.GetUserAccountIdFromHClaimsPrincipal(claimsPrincipal);
+        return novelService.GetNovelsByUserAccountId(userAccountId);
     }
 }

@@ -12,7 +12,7 @@ public interface IUserAccountRepository
         string name,
         string gmail,
         string userSettingId,
-        string imageUrl
+        string? imageUrl
     );
 }
 
@@ -40,7 +40,7 @@ public class UserAccountRepository(ApplicationDbContext _context) : IUserAccount
         string name,
         string gmail,
         string userSettingId,
-        string imageUrl
+        string? imageUrl
     )
     {
         var entity = new UserAccountEntity()
