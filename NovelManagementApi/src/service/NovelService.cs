@@ -11,10 +11,16 @@ public interface INovelService
     public bool DeleteNovel(string id, string userAccountId);
 }
 
-public class NovelService(INovelRepository _novelRepository) : INovelService
+public class NovelService(
+    INovelRepository _novelRepository,
+    INovelSettingRepository _novelSettingRepository,
+    INovelContentsRepository _novelContentsRepository
+    ) : INovelService
 {
 
     private readonly INovelRepository novelRepository = _novelRepository;
+    private readonly INovelSettingRepository novelSettingRepository = _novelSettingRepository;
+    private readonly INovelContentsRepository novelContentsRepository = _novelContentsRepository;
 
     // ユーザーの小説リストの取得
     public List<NovelResponse> GetNovelsByUserAccountId(string userAccountId)
@@ -47,6 +53,8 @@ public class NovelService(INovelRepository _novelRepository) : INovelService
     // 小説の削除
     public bool DeleteNovel(string id, string userAccountId)
     {
+        novelContentsRepository.DeleteNovelContentsEntityById(id, userAccountId);
+        novelSettingRepository.DeleteNovelSettingEntityByNovelId(id, userAccountId);
         novelRepository.DeleteNovelEntity(id, userAccountId);
         return true;
     }

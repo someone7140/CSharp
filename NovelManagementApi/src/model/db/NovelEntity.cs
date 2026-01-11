@@ -15,7 +15,7 @@ public class NovelEntity
     [Column("title", TypeName = "varchar")]
     public required string Title { get; set; }
 
-    [Column("description", TypeName = "varchar")]
+    [Column("description", TypeName = "text")]
     public string? Description { get; set; }
 
     [Column("owner_user_account_id", TypeName = "varchar")]

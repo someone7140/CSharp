@@ -6,21 +6,18 @@ using NovelManagementApi.src.model.db;
 public interface INovelRepository
 {
     public List<NovelEntity> GetNovelEntitiesByUserAccountId(string userAccountId);
-
     public void AddNovelEntity(
         string id,
         string title,
         string? description,
         string ownerUserAccountId
     );
-
     public void EditNovelEntity(
         string id,
         string title,
         string? description,
         string ownerUserAccountId
     );
-
     public void DeleteNovelEntity(string id, string ownerUserAccountId);
 }
 

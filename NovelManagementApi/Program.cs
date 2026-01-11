@@ -14,19 +14,27 @@ Env.Load();
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Env.GetString("DB_CONNECT")))
-    .AddScoped<INovelService, NovelService>()
-    .AddScoped<INovelRepository, NovelRepository>()
     .AddScoped<IUserAccountService, UserAccountService>()
     .AddScoped<IUserAccountRepository, UserAccountRepository>()
+    .AddScoped<INovelService, NovelService>()
+    .AddScoped<INovelRepository, NovelRepository>()
+    .AddScoped<INovelSettingService, NovelSettingService>()
+    .AddScoped<INovelSettingRepository, NovelSettingRepository>()
+    .AddScoped<INovelContentsService, NovelContentsService>()
+    .AddScoped<INovelContentsRepository, NovelContentsRepository>()
     .AddGraphQLServer()
     .AddAuthorization()
     .AddType<ErrorCode>()
     .AddQueryType(d => d.Name("Query"))
     .AddTypeExtension<UserAccountQuery>()
     .AddTypeExtension<NovelQuery>()
+    .AddTypeExtension<NovelSettingQuery>()
+    .AddTypeExtension<NovelContentsQuery>()
     .AddMutationType(d => d.Name("Mutation"))
     .AddTypeExtension<UserAccountMutation>()
-    .AddTypeExtension<NovelMutation>();
+    .AddTypeExtension<NovelMutation>()
+    .AddTypeExtension<NovelSettingMutation>()
+    .AddTypeExtension<NovelContentsMutation>();
 
 builder.Services
     .AddAuthentication(options =>

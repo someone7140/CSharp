@@ -11,4 +11,6 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<UserAccountEntity> UserAccounts { get; set; }
     public DbSet<NovelEntity> Novels { get; set; }
+    public DbSet<NovelSettingEntity> NovelSettings { get; set; }
+    public DbSet<NovelContentsEntity> NovelContents { get; set; }
 }
