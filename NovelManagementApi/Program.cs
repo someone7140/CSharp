@@ -13,6 +13,17 @@ Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
+    .AddCors(options =>
+    {
+        options.AddPolicy("AllowSpecificOrigins", policy =>
+        {
+            policy
+                .WithOrigins(Env.GetString("FRONTEND_DOMAIN"))
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
+    })
     .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Env.GetString("DB_CONNECT")))
     .AddScoped<IUserAccountService, UserAccountService>()
     .AddScoped<IUserAccountRepository, UserAccountRepository>()
@@ -60,6 +71,7 @@ builder.Services
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
+app.UseCors("AllowSpecificOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapGraphQL();

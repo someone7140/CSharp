@@ -48,7 +48,8 @@ public class UserAccountService(IUserAccountRepository _userAccountRepository) :
     public async Task<UserAccountResponse> GetUserAccountByGoogleAuthCode(string authCode)
     {
         var profile = await AuthUtil.GetGoogleUserProfileFromAuthCode(authCode);
-        var userAccountEntity = userAccountRepository.GetUserAccountByGmail(profile.Email) ?? throw new GraphQLException(
+        var userAccountEntity = userAccountRepository.GetUserAccountByGmail(profile.Email) ??
+            throw new GraphQLException(
                 ErrorBuilder.New()
                 .SetMessage("Can not find user")
                 .SetCode(ErrorCode.NOT_FOUND.ToString())
@@ -58,13 +59,15 @@ public class UserAccountService(IUserAccountRepository _userAccountRepository) :
         {
           { AuthUtil.USER_ACCOUNT_ID_KEY, userAccountEntity.Id }
         };
+        // 最新のイメージURLで更新する
+        userAccountRepository.UpdateImageUrl(profile.Picture, userAccountEntity.Id);
 
         return new UserAccountResponse()
         {
             Token = AuthUtil.GenerateJwtToken(idClaims, TimeSpan.FromDays(120)),
             UserSettingId = userAccountEntity.UserSettingId,
             Name = userAccountEntity.Name,
-            ImageUrl = userAccountEntity.ImageUrl
+            ImageUrl = profile.Picture
         };
     }
 

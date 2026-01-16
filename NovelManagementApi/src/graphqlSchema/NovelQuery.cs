@@ -17,4 +17,14 @@ public class NovelQuery
         var userAccountId = AuthUtil.GetUserAccountIdFromHClaimsPrincipal(claimsPrincipal);
         return novelService.GetNovelsByUserAccountId(userAccountId);
     }
+
+    [Authorize]
+    public NovelResponse GetMyNovelById(
+        string novelId,
+        ClaimsPrincipal claimsPrincipal,
+        [Service] INovelService novelService)
+    {
+        var userAccountId = AuthUtil.GetUserAccountIdFromHClaimsPrincipal(claimsPrincipal);
+        return novelService.GetNovelById(novelId, userAccountId);
+    }
 }

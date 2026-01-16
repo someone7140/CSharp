@@ -39,7 +39,7 @@ namespace NovelManagementApi.Migrations
                     owner_user_account_id = table.Column<string>(type: "varchar", nullable: false),
                     parent_setting_id = table.Column<string>(type: "varchar", nullable: true),
                     display_order = table.Column<int>(type: "int4", nullable: true),
-                    attributes = table.Column<string[]>(type: "varchar[]", nullable: false),
+                    attributes = table.Column<string[]>(type: "text[]", nullable: false),
                     description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>

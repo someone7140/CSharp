@@ -6,6 +6,7 @@ using NovelManagementApi.src.repository;
 public interface INovelService
 {
     public List<NovelResponse> GetNovelsByUserAccountId(string userAccountId);
+    public NovelResponse GetNovelById(String Id, string userAccountId);
     public bool AddNovel(string title, string? description, string userAccountId);
     public bool EditNovel(string id, string title, string? description, string userAccountId);
     public bool DeleteNovel(string id, string userAccountId);
@@ -33,6 +34,24 @@ public class NovelService(
             Title = ent.Title,
             Description = ent.Description
         }).ToList();
+    }
+
+    // 小説をID指定で取得
+    public NovelResponse GetNovelById(string id, string userAccountId)
+    {
+        var entity = novelRepository.GetNovelById(id, userAccountId) ?? throw new GraphQLException(
+                ErrorBuilder.New()
+                .SetMessage("Can not find novel")
+                .SetCode(ErrorCode.NOT_FOUND.ToString())
+                .Build()
+            );
+
+        return new NovelResponse()
+        {
+            Id = entity.Id,
+            Title = entity.Title,
+            Description = entity.Description
+        };
     }
 
     // 小説の新規登録

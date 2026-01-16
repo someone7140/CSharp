@@ -107,7 +107,7 @@ namespace NovelManagementApi.Migrations
 
                     b.PrimitiveCollection<string[]>("Attributes")
                         .IsRequired()
-                        .HasColumnType("varchar[]")
+                        .HasColumnType("text[]")
                         .HasColumnName("attributes");
 
                     b.Property<string>("Description")

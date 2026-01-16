@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NovelManagementApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260111073941_InitialCreate")]
+    [Migration("20260116071209_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -110,7 +110,7 @@ namespace NovelManagementApi.Migrations
 
                     b.PrimitiveCollection<string[]>("Attributes")
                         .IsRequired()
-                        .HasColumnType("varchar[]")
+                        .HasColumnType("text[]")
                         .HasColumnName("attributes");
 
                     b.Property<string>("Description")

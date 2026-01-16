@@ -19,7 +19,7 @@ public class UserAccountQuery
     }
 
     [Authorize]
-    public UserAccountResponse GetUserAccountResponseGetUserAccountFromAuthHeader(
+    public UserAccountResponse GetUserAccountFromAuthHeader(
         ClaimsPrincipal claimsPrincipal,
         [Service] IUserAccountService userAccountService)
     {

@@ -27,7 +27,7 @@ public class NovelSettingEntity
     [Column("display_order", TypeName = "int4")]
     public int? DisplayOrder { get; set; }
 
-    [Column("attributes", TypeName = "varchar[]")]
+    [Column("attributes", TypeName = "text[]")]
     public required string[] Attributes { get; set; }
 
     [Column("description", TypeName = "text")]

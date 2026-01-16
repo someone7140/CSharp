@@ -1,5 +1,6 @@
 namespace NovelManagementApi.src.repository;
 
+using Microsoft.EntityFrameworkCore;
 using NovelManagementApi.src.model.db;
 
 public interface IUserAccountRepository
@@ -14,6 +15,7 @@ public interface IUserAccountRepository
         string userSettingId,
         string? imageUrl
     );
+    public void UpdateImageUrl(string? imageUrl, string userAccountId);
 }
 
 public class UserAccountRepository(ApplicationDbContext _context) : IUserAccountRepository
@@ -54,5 +56,14 @@ public class UserAccountRepository(ApplicationDbContext _context) : IUserAccount
         };
         dbContext.UserAccounts.Add(entity);
         dbContext.SaveChanges();
+    }
+
+    public void UpdateImageUrl(string? imageUrl, string userAccountId)
+    {
+        dbContext.UserAccounts
+           .Where(u => u.Id == userAccountId)
+           .ExecuteUpdate(setters =>
+                setters.SetProperty(n => n.ImageUrl, imageUrl)
+           );
     }
 }

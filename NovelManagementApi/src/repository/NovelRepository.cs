@@ -6,6 +6,7 @@ using NovelManagementApi.src.model.db;
 public interface INovelRepository
 {
     public List<NovelEntity> GetNovelEntitiesByUserAccountId(string userAccountId);
+    public NovelEntity? GetNovelById(string id, string userAccountId);
     public void AddNovelEntity(
         string id,
         string title,
@@ -47,6 +48,11 @@ public class NovelRepository(ApplicationDbContext _context) : INovelRepository
         };
         dbContext.Novels.Add(entity);
         dbContext.SaveChanges();
+    }
+
+    public NovelEntity? GetNovelById(string id, string ownerUserAccountId)
+    {
+        return dbContext.Novels.FirstOrDefault(n => n.Id == id && n.OwnerUserAccountId == ownerUserAccountId);
     }
 
     public void EditNovelEntity(
