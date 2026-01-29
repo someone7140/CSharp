@@ -16,6 +16,11 @@ public interface IUserAccountRepository
         string? imageUrl
     );
     public void UpdateImageUrl(string? imageUrl, string userAccountId);
+    public void UpdateUserAccountInfo(
+        string userSettingId,
+        string name,
+        string userAccountId
+    );
 }
 
 public class UserAccountRepository(ApplicationDbContext _context) : IUserAccountRepository
@@ -63,7 +68,21 @@ public class UserAccountRepository(ApplicationDbContext _context) : IUserAccount
         dbContext.UserAccounts
            .Where(u => u.Id == userAccountId)
            .ExecuteUpdate(setters =>
-                setters.SetProperty(n => n.ImageUrl, imageUrl)
+                setters.SetProperty(u => u.ImageUrl, imageUrl)
+           );
+    }
+
+    public void UpdateUserAccountInfo(
+        string userSettingId,
+        string name,
+        string userAccountId
+    )
+    {
+        dbContext.UserAccounts
+           .Where(u => u.Id == userAccountId)
+           .ExecuteUpdate(setters =>
+                setters.SetProperty(u => u.Name, name)
+                       .SetProperty(u => u.UserSettingId, userSettingId)
            );
     }
 }

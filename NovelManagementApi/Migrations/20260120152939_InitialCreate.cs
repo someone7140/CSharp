@@ -63,6 +63,22 @@ namespace NovelManagementApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "prompt_templates",
+                columns: table => new
+                {
+                    id = table.Column<string>(type: "varchar", nullable: false),
+                    name = table.Column<string>(type: "varchar", nullable: false),
+                    owner_user_account_id = table.Column<string>(type: "varchar", nullable: false),
+                    display_order = table.Column<int>(type: "int4", nullable: true),
+                    template = table.Column<string>(type: "text", nullable: true),
+                    description = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_prompt_templates", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "user_accounts",
                 columns: table => new
                 {
@@ -104,6 +120,11 @@ namespace NovelManagementApi.Migrations
                 column: "owner_user_account_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_prompt_templates_owner_user_account_id",
+                table: "prompt_templates",
+                column: "owner_user_account_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_user_accounts_gmail",
                 table: "user_accounts",
                 column: "gmail",
@@ -126,6 +147,9 @@ namespace NovelManagementApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "novels");
+
+            migrationBuilder.DropTable(
+                name: "prompt_templates");
 
             migrationBuilder.DropTable(
                 name: "user_accounts");

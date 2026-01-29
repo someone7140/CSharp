@@ -13,4 +13,5 @@ public class ApplicationDbContext : DbContext
     public DbSet<NovelEntity> Novels { get; set; }
     public DbSet<NovelSettingEntity> NovelSettings { get; set; }
     public DbSet<NovelContentsEntity> NovelContents { get; set; }
+    public DbSet<PromptTemplateEntity> PromptTemplates { get; set; }
 }

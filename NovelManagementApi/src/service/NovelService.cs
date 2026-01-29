@@ -6,7 +6,7 @@ using NovelManagementApi.src.repository;
 public interface INovelService
 {
     public List<NovelResponse> GetNovelsByUserAccountId(string userAccountId);
-    public NovelResponse GetNovelById(String Id, string userAccountId);
+    public NovelResponse GetNovelById(string Id, string userAccountId);
     public bool AddNovel(string title, string? description, string userAccountId);
     public bool EditNovel(string id, string title, string? description, string userAccountId);
     public bool DeleteNovel(string id, string userAccountId);

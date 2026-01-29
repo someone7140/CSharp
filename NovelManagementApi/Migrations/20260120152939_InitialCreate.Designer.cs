@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NovelManagementApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260116071209_InitialCreate")]
+    [Migration("20260120152939_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -147,6 +147,41 @@ namespace NovelManagementApi.Migrations
                     b.HasIndex("OwnerUserAccountId");
 
                     b.ToTable("novel_settings");
+                });
+
+            modelBuilder.Entity("NovelManagementApi.src.model.db.PromptTemplateEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<int?>("DisplayOrder")
+                        .HasColumnType("int4")
+                        .HasColumnName("display_order");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar")
+                        .HasColumnName("name");
+
+                    b.Property<string>("OwnerUserAccountId")
+                        .IsRequired()
+                        .HasColumnType("varchar")
+                        .HasColumnName("owner_user_account_id");
+
+                    b.Property<string>("Template")
+                        .HasColumnType("text")
+                        .HasColumnName("template");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerUserAccountId");
+
+                    b.ToTable("prompt_templates");
                 });
 
             modelBuilder.Entity("NovelManagementApi.src.model.db.UserAccountEntity", b =>

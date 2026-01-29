@@ -10,6 +10,7 @@ public interface IUserAccountService
     public Task<UserAccountResponse> GetUserAccountByGoogleAuthCode(string authCode);
     public UserAccountResponse AddUserAccount(string registerToken, string userSettingId, string name);
     public UserAccountResponse GetUserAccountByUserAccountId(string userAccountId);
+    public UserAccountResponse EditUserAccount(string userSettingId, string name, string userAccountId);
 }
 
 public class UserAccountService(IUserAccountRepository _userAccountRepository) : IUserAccountService
@@ -135,6 +136,40 @@ public class UserAccountService(IUserAccountRepository _userAccountRepository) :
                 .Build()
             );
 
+        return new UserAccountResponse()
+        {
+            Token = null,
+            UserSettingId = userAccountEntity.UserSettingId,
+            Name = userAccountEntity.Name,
+            ImageUrl = userAccountEntity.ImageUrl
+        };
+    }
+
+    // アカウント情報の編集
+    public UserAccountResponse EditUserAccount(string userSettingId, string name, string userAccountId)
+    {
+        var userAccountEntity = userAccountRepository.GetUserAccountByUserUserAccountId(userAccountId) ?? throw new GraphQLException(
+                ErrorBuilder.New()
+                .SetMessage("Can not find user")
+                .SetCode(ErrorCode.NOT_FOUND.ToString())
+                .Build()
+            );
+        if (userSettingId != userAccountEntity.UserSettingId)
+        {
+            // すでにuserSettingIdが登録されていたらエラー
+            var userAccountByUserSettingId = userAccountRepository.GetUserAccountByUserSettingId(userSettingId);
+            if (userAccountByUserSettingId is not null)
+            {
+                throw new GraphQLException(
+                    ErrorBuilder.New()
+                    .SetMessage("Already registered userSettingId")
+                    .SetCode(ErrorCode.FORBIDDEN.ToString())
+                    .Build()
+                );
+            }
+        }
+
+        userAccountRepository.UpdateUserAccountInfo(userSettingId, name, userAccountId);
         return new UserAccountResponse()
         {
             Token = null,

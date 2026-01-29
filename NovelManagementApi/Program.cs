@@ -33,6 +33,8 @@ builder.Services
     .AddScoped<INovelSettingRepository, NovelSettingRepository>()
     .AddScoped<INovelContentsService, NovelContentsService>()
     .AddScoped<INovelContentsRepository, NovelContentsRepository>()
+    .AddScoped<IPromptTemplateService, PromptTemplateService>()
+    .AddScoped<IPromptTemplateRepository, PromptTemplateRepository>()
     .AddGraphQLServer()
     .AddAuthorization()
     .AddType<ErrorCode>()
@@ -41,11 +43,13 @@ builder.Services
     .AddTypeExtension<NovelQuery>()
     .AddTypeExtension<NovelSettingQuery>()
     .AddTypeExtension<NovelContentsQuery>()
+    .AddTypeExtension<PromptTemplateQuery>()
     .AddMutationType(d => d.Name("Mutation"))
     .AddTypeExtension<UserAccountMutation>()
     .AddTypeExtension<NovelMutation>()
     .AddTypeExtension<NovelSettingMutation>()
-    .AddTypeExtension<NovelContentsMutation>();
+    .AddTypeExtension<NovelContentsMutation>()
+    .AddTypeExtension<PromptTemplateMutation>();
 
 builder.Services
     .AddAuthentication(options =>
