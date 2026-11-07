@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- 全プロジェクトの出力アセンブリ名を "app" に統一（VS Code launch.json のパス解決のため） -->
+    <AssemblyName>app</AssemblyName>
+  </PropertyGroup>
+</Project>
